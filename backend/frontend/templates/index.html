@@ -1,0 +1,38 @@
+<!-- The routes -->
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Feed list</title>
+
+
+{% endblock %}
+
+{% block nav %}
+<a href="{{ url_for('index') }}">Home</a>
+<a href="{{ url_for('categories') }}">Categories</a>
+<a href="{{ url_for('create') }}">Create</a>
+<a href="{{ url_for('about') }}">About</a>
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<h1>Body</h1>
+
+<h1 class="page-title">Welcome to My Blog</h1>
+
+<div class="container">
+    <p>This is some content inside a container.</p>
+</div>
+
+
+{% endblock %}
+
+
+{% block footer %}
+
+Bottega Full Stack Capston Porject 2023
+
+{% endblock %}
