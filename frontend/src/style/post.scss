@@ -1,0 +1,35 @@
+div.post {
+    display: grid;
+    grid-template-rows: 0fr 0fr;
+    gap: 5px;
+    margin-bottom: 30px;
+  }
+  
+  div.post img {
+    max-width: 100%;
+  }
+  
+  div.post div.blog h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  div.post p.info {
+    margin: 6px 0;
+    color: #888;
+    font-size: .7rem;
+    font-weight: bold;
+    display: flex;
+    gap: 5px;
+  }
+  
+  div.post p.info a.author {
+    color: #333;
+  
+  }
+  
+  div.post p.sum {
+    margin: 5px 0;
+    line-height: 1.5rem;
+  }
+  

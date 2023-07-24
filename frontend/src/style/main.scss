@@ -1,0 +1,33 @@
+// *{
+//   box-sizing: border-box;
+// }
+
+body {
+  color: #333;
+}
+
+
+
+  
+  header a{
+    text-decoration: none;
+    color: inherit;
+    /* todo change the font style and color */
+  }
+  
+  /* header img {
+    max-width: auto;
+    max-height: 100px;
+  } */
+  
+  header a.logo {
+    font-weight: bold;
+    font-size: 2rem;
+  
+  }
+  
+  header nav {
+    display: flex;
+    gap: 15px;
+    align-items: center
+  }
