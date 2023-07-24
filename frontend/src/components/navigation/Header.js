@@ -32,20 +32,18 @@ const NavigationComponent = (props) => {
             Blog
           </NavLink>
         </div>
+
+        <div className='nav-link-wrapper'>
+          <div className='login'>
+            <NavLink to='/login'>Login | </NavLink>
+          </div>
+          <div className='reg'>
+            <Link to='/register'>Register</Link>
+          </div>
+        </div>
       </div>
     </header>
   );
 };
 
 export default NavigationComponent;
-
-// <header>
-//   {/* <img src={logo} alt=''></img> */}
-// <Link to='/' className='logo'>
-//   Space Blog
-// </Link>
-//   <nav>
-//     <Link to='/login'>Login</Link>
-//     <Link to='/register'>Register</Link>
-//   </nav>
-// </header>

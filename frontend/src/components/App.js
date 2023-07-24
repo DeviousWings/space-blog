@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
+import React from "react";
 
 import "../style/App.scss";
-import Index from "./pages/index.js";
+import Index from "./pages/index";
 import Layout from "../Layout";
 import Login from "./auth/login";
 import Register from "./auth/register";
