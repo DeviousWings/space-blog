@@ -1,3 +1,3 @@
-mongodb+srv://nskingdev:<OVGhKDUp1mlZnHvb>@cluster0.zrtybye.mongodb.net/
+mongodb+srv://nskingdev:<62TtcSzEieARXAZS>@cluster0.zrtybye.mongodb.net/
 
 mongodb+srv://nskingdev2:<CBthP7gR2ND1jZif>@cluster0.zrtybye.mongodb.net/
