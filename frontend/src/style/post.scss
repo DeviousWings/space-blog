@@ -3,10 +3,11 @@ div.post {
     grid-template-rows: 0fr 0fr;
     gap: 5px;
     margin-bottom: 30px;
+    justify-content: center;
   }
   
   div.post img {
-    max-width: 100%;
+    max-width: 20rem;
   }
   
   div.post div.blog h2 {
@@ -14,6 +15,12 @@ div.post {
     font-size: 1.5rem;
   }
   
+div.post div.blog a {
+  text-decoration: none;
+  color: inherit;
+
+}
+
   div.post p.info {
     margin: 6px 0;
     color: #888;

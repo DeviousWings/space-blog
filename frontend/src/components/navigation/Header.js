@@ -65,8 +65,13 @@ const NavigationComponent = (props) => {
         </div>
 
         <div className="nav-link-wrapper">
-          <a onClick={logout}>Logout</a>
+          {/* <NavLink exact="true" to="/profile" activeClassName="nav-link-active">
+            Profile
+          </NavLink>
+          <div>-------</div> */}
+          <a onClick={logout}> Logout</a>
         </div>
+
         <div className="nav-link-wrapper">
           {!username && (
             <>

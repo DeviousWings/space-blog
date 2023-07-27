@@ -11,6 +11,7 @@ const fs = require("fs");
 
 const User = require("./models/user");
 const Post = require("./models/Post");
+// const Profile = require("./models/Profile");
 
 //https://www.npmjs.com/package/bcrypt
 const saltRounds = 10;
@@ -21,16 +22,18 @@ const secret = "fasjlkdcksdloenija;lfsds";
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 mongoose.connect(
   "mongodb+srv://nskingdev:62TtcSzEieARXAZS@cluster0.zrtybye.mongodb.net/?retryWrites=true&w=majority"
 );
 
 app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
   try {
     const userDoc = await User.create({
       username,
+      email,
       password: bcrypt.hashSync(password, saltRounds),
     });
     res.json(userDoc);
@@ -61,12 +64,9 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
-  jwt.verify(token, secret, (err, decoded) => {
-    if (err) {
-      res.status(401).json({ error: "Unauthorized" });
-    } else {
-      res.json(decoded);
-    }
+  jwt.verify(token, secret, {}, (err, info) => {
+    if (err) throw err;
+    res.json(info);
   });
 });
 
@@ -82,20 +82,46 @@ app.post("/post", uploadMiddleWare.single("files"), async (req, res) => {
   const newPath = path + "." + ext;
   fs.renameSync(path, newPath);
 
-  const { title, summary, content } = req.body;
-  const postDoc = await Post.create({
-    title,
-    summary,
-    content,
-    cover: newPath,
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { title, summary, content } = req.body;
+    const postDoc = await Post.create({
+      title,
+      summary,
+      content,
+      cover: newPath,
+      author: info.id,
+    });
+    res.json({ postDoc });
   });
-
-  res.json({ postDoc });
 });
 
 app.get("/post", async (req, res) => {
-  res.json(await Post.find());
+  res.json(
+    await Post.find()
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(10)
+  );
 });
+
+app.get("/post/:id", async (req, res) => {
+  res.json({});
+});
+
+// app.get("/profile/:id", async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const userDoc = await User.findById(id);
+//     if (!userDoc) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     res.json(userDoc);
+//   } catch (e) {
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// });
 
 app.listen(4000);
 //nskingdev
