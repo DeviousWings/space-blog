@@ -6,14 +6,21 @@ export default function Page() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:400/post/${id}`).then((response) => {
+    fetch(`http://localhost:4000/post/${id}`).then((response) => {
       response.json().then((postInfo) => {
         setPostInfo(postInfo);
       });
     });
   }, []);
-  //prettier-ignore
+  if (!postInfo) return ";";
+
   return (
-  <div>Post Page here</div>
+    <div>
+      <div className="cover">
+        <img src={`http://localhost:4000/${postInfo.cover}`} alt="" />
+      </div>
+      <h1>{postInfo.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: postInfo.content }} />
+    </div>
   );
 }

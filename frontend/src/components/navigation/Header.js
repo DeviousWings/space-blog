@@ -8,17 +8,13 @@ const NavigationComponent = (props) => {
   useEffect(() => {
     fetch("http://localhost:4000/profile", {
       credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((userInfo) => {
-            setUserInfo(userInfo);
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-      });
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((userInfo) => {
+          setUserInfo(userInfo);
+        });
+      }
+    });
   }, []);
 
   function logout() {

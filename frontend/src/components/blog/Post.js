@@ -10,6 +10,7 @@ export default function Post({
   createdAt,
   author,
 }) {
+  const createdAtDate = createdAt ? new Date(createdAt) : new Date();
   return (
     <div className="post">
       <div className="image">
@@ -24,7 +25,7 @@ export default function Post({
 
         <p className="info">
           <span className="author">{author.username}</span>
-          <time>{format(new Date(createdAt), "MMM d, yyyy HH:mm")}</time>
+          <time>{format(new Date(createdAtDate), "MMM d, yyyy HH:mm")}</time>
         </p>
         <p className="sum">{summary}</p>
       </div>
