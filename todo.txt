@@ -1,0 +1,4 @@
+- finish the tutorial.
+- Fix font
+- New posts do not show up in slot 1
+- Change the creation page. Content entry needs to be whited out.

@@ -1,16 +1,33 @@
-.title {
-    width: 500px;
-}
 
-.summary {
-    width: 600px;
-    height: 100px;
-}
+form {
+    display: grid;
+    align-items: center;
+    justify-content: center;
 
-.file {
-    width: 600px;
-}
+    .create-title {
+        border-radius: 10px;
+        text-align: center;
+        align-items: center;
+        background-color: $teal;
+        margin-bottom: 10px;
+    }
 
-button {
-    margin-top: 5px;
+    .title {
+        width: 600px;
+    }
+    .summary {
+        width: 600px;
+        height: 100px;
+    }
+    
+    .file {
+        width: 600px;
+    }
+    
+    button {
+        margin-top: 5px;
+    }
+    .quill {
+        background-color: white;
+    }
 }

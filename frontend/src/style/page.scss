@@ -1,0 +1,92 @@
+.center-content {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+}
+    .posted {
+        padding: 20px;
+        background-color: white;
+        max-width: 800px;
+        border-radius: 10px;
+        
+        .post-title {
+            text-align: center;
+        }
+        .author {
+            display: flex;
+            justify-content: center;
+            color: $charcoal;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px
+        }
+
+        .time-wrapper {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            color: $grey;
+            font-size: 15px;
+            
+
+            time {
+                display: inline-flex;
+                gap: 5px;
+
+                svg {
+                    color: black;
+                    height: 20px;
+                }
+        }
+        }
+
+        .cover {
+            max-height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+        
+            img {
+              object-fit: cover;
+              object-position: center center;
+            }
+            a {
+                color: #333;
+                text-decoration: underline;
+            }
+            
+          }
+          .edit-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            .edit-btn {
+                display: inline-flex;
+                padding: 15px 30px;
+                text-decoration: none;
+                background-color: #3a1010;
+                color: #fff;
+                border-radius: 10px;
+                gap: 5px;
+
+                &:hover {
+                    color: $dark-teal;
+                  
+                }
+
+                svg {
+                    height: 20px;
+                }
+                
+                
+          }
+        }
+    }
+
+
+
+
+
+
+

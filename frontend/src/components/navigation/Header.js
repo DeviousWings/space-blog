@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 
 const NavigationComponent = (props) => {
@@ -29,7 +29,7 @@ const NavigationComponent = (props) => {
   return (
     <header>
       <div className="nav-wrapper">
-        <div className="nav-link-wrapper">
+        <div className="web-title">
           <NavLink exact="true" to="/" className="logo">
             Space Blog
           </NavLink>
@@ -60,30 +60,34 @@ const NavigationComponent = (props) => {
           </NavLink>
         </div>
 
-        <div className="nav-link-wrapper">
-          {/* <NavLink exact="true" to="/profile" activeClassName="nav-link-active">
+        {username && (
+          <>
+            <div className="nav-link-wrapper">
+              {/* <NavLink exact="true" to="/profile" activeClassName="nav-link-active">
             Profile
           </NavLink>
           <div>-------</div> */}
-          <a onClick={logout}> Logout</a>
-        </div>
-
-        <div className="nav-link-wrapper">
-          {!username && (
+              <a onClick={logout}>Logout ({username})</a>
+            </div>
+          </>
+        )}
+        {!username && (
+          <div className="nav-link-wrapper">
             <>
               <div className="login">
                 <NavLink exact="true" to="/login">
                   Login |
                 </NavLink>
               </div>
+
               <div className="reg">
                 <NavLink exact="true" to="/register">
                   Register
                 </NavLink>
               </div>
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );
