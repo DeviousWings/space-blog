@@ -12,7 +12,7 @@ export default function Edit() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/post/${id}`)
+    fetch("http://localhost:4000/post/" + id)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch post data");
@@ -33,21 +33,21 @@ export default function Edit() {
   async function updatedPost(ev) {
     ev.preventDefault();
     const data = new FormData();
-    data.append("title", title);
-    data.append("summary", summary);
-    data.append("content", content);
-    data.append("id", id);
+    data.set("title", title);
+    data.set("summary", summary);
+    data.set("content", content);
+    data.set("id", id);
     if (files?.[0]) {
-      data.append("files", files?.[0]);
+      data.set("file", files?.[0]);
     }
-    await fetch(`http://localhost:4000/post/${id}`, {
+    const response = await fetch("http://localhost:4000/post", {
       method: "PUT",
       body: data,
-      // credentials: "include",
+      credentials: "include",
     });
-    // if (response.ok) {
-    setRedirect(true);
-    // }
+    if (response.ok) {
+      setRedirect(true);
+    }
   }
 
   if (redirect) {

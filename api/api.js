@@ -30,6 +30,15 @@ mongoose.connect(
   "mongodb+srv://nskingdev:62TtcSzEieARXAZS@cluster0.zrtybye.mongodb.net/?retryWrites=true&w=majority"
 );
 
+function renameFileAndReturnPath(file) {
+  const { originalname, path } = file;
+  const parts = originalname.split(".");
+  const ext = parts[parts.length - 1];
+  const newPath = path + "." + ext;
+  fs.renameSync(path, newPath);
+  return newPath;
+}
+
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -68,7 +77,7 @@ app.post("/logout", (req, res) => {
   res.cookie("token", "").json("ok");
 });
 
-app.post("/post", uploadMiddleWare.single("files"), async (req, res) => {
+app.post("/post", uploadMiddleWare.single("file"), async (req, res) => {
   //For the picture of the post
   const { originalname, path } = req.file;
   const parts = originalname.split(".");
@@ -96,7 +105,31 @@ app.post("/post", uploadMiddleWare.single("files"), async (req, res) => {
 });
 
 app.put("/post", uploadMiddleWare.single("file"), async (req, res) => {
-  res.json({ test: 4, filesIs: req.file });
+  let newPath = null;
+  if (req.file) {
+    newPath = renameFileAndReturnPath(req.file);
+  }
+
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { id, title, summary, content } = req.body;
+    const postDoc = await Post.findById(id);
+    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+    if (!isAuthor) {
+      return res.status(400).json("you are not the author");
+    }
+    postDoc.title = title;
+    postDoc.summary = summary;
+    postDoc.content = content;
+    if (newPath) {
+      postDoc.cover = newPath;
+    }
+
+    await postDoc.save();
+
+    res.json(postDoc);
+  });
 });
 
 app.get("/post", async (req, res) => {
