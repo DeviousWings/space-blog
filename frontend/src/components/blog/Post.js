@@ -11,6 +11,7 @@ export default function Post({
   author,
 }) {
   const createdAtDate = createdAt ? new Date(createdAt) : new Date();
+  const authorUsername = author ? author.username : "Unknown Author";
   return (
     <main>
       <div className="post">
@@ -26,7 +27,7 @@ export default function Post({
             </Link>
 
             <p className="info">
-              <span className="author">{author.username} </span>
+              <span className="author">{authorUsername} </span>
 
               <time>
                 {format(new Date(createdAtDate), "MMM d, yyyy HH:mm")}

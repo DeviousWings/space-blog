@@ -78,30 +78,39 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/post", uploadMiddleWare.single("file"), async (req, res) => {
-  //For the picture of the post
-  const { originalname, path } = req.file;
-  const parts = originalname.split(".");
-  const ext = parts[parts.length - 1];
-  const newPath = path + "." + ext;
-  fs.renameSync(path, newPath);
+  try {
+    const { token } = req.cookies;
+    const { title, summary, content } = req.body;
 
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) throw err;
-    const { id, title, summary, content } = req.body;
-    const postDoc = await Post.findById(id);
-    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
-    if (!isAuthor) {
-      return res.status(400).json("you are not the author");
-    }
-    await postDoc.update({
-      title,
-      summary,
-      content,
-      cover: newPath ? newPath : postDoc.cover,
+    jwt.verify(token, secret, {}, async (err, info) => {
+      if (err) throw err;
+
+      const { originalname, path } = req.file;
+      const parts = originalname.split(".");
+      const ext = parts[parts.length - 1];
+      const newPath = path + "." + ext;
+      fs.renameSync(path, newPath);
+
+      // Create the post with the provided data and author information
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: newPath,
+        author: info.id,
+      });
+
+      if (!postDoc) {
+        return res.status(404).json("Post not found");
+      }
+
+      // Send the created post as the response
+      res.json(postDoc);
     });
-    res.json({ postDoc });
-  });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json("Internal server error");
+  }
 });
 
 app.put("/post", uploadMiddleWare.single("file"), async (req, res) => {
@@ -117,7 +126,7 @@ app.put("/post", uploadMiddleWare.single("file"), async (req, res) => {
     const postDoc = await Post.findById(id);
     const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
     if (!isAuthor) {
-      return res.status(400).json("you are not the author");
+      return res.status(400).json("You are not the author");
     }
     postDoc.title = title;
     postDoc.summary = summary;
@@ -133,12 +142,17 @@ app.put("/post", uploadMiddleWare.single("file"), async (req, res) => {
 });
 
 app.get("/post", async (req, res) => {
-  res.json(
-    await Post.find()
+  try {
+    const posts = await Post.find()
       .populate("author", ["username"])
-      .sort({ createdAt: -1 })
-      .limit(10)
-  );
+      .sort({ createdAt: 1 }) // Sort in descending order
+      .limit(10);
+
+    res.json(posts);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json("Internal server error");
+  }
 });
 
 app.get("/post/:id", async (req, res) => {

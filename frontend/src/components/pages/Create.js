@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import "react-quill/dist/quill.snow.css";
@@ -16,15 +16,23 @@ export default function CreatePost() {
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
-    data.set("file", files[0]);
+    data.set("file", files);
     ev.preventDefault();
-    const response = await fetch("http://localhost:4000/post", {
-      method: "POST",
-      body: data,
-      credentials: "include",
-    });
-    if (response.ok) {
-      setRedirect(true);
+    try {
+      const response = await fetch("http://localhost:4000/post", {
+        method: "POST",
+        body: data,
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        console.error("Response not OK:", response.status, response.statusText);
+      } else {
+        console.log("Post created successfully");
+        setRedirect(true);
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
     }
   }
 
@@ -55,8 +63,8 @@ export default function CreatePost() {
       <input
         type="file"
         className="file"
-        // value={files}
-        onChange={(ev) => setFiles(ev.target.files)}
+        name="file"
+        onChange={(ev) => setFiles(ev.target.files[0])}
       />
 
       <Editor onChange={setContent} value={content} />

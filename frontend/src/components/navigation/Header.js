@@ -4,16 +4,13 @@ import { UserContext } from "./UserContext";
 
 const NavigationComponent = (props) => {
   const { setUserInfo, userInfo } = useContext(UserContext);
-
   useEffect(() => {
     fetch("http://localhost:4000/profile", {
       credentials: "include",
     }).then((response) => {
-      if (response.ok) {
-        response.json().then((userInfo) => {
-          setUserInfo(userInfo);
-        });
-      }
+      response.json().then((userInfo) => {
+        setUserInfo(userInfo);
+      });
     });
   }, []);
 
@@ -35,9 +32,12 @@ const NavigationComponent = (props) => {
           </NavLink>
         </div>
         {username && (
-          <div className="nav-link-wrapper">
-            <NavLink to="/create">Create New Post</NavLink>
-          </div>
+          <>
+            <span>Hello, {username}</span>
+            <div className="nav-link-wrapper">
+              <NavLink to="/create">Create New Post</NavLink>
+            </div>
+          </>
         )}
 
         <div className="nav-link-wrapper">
